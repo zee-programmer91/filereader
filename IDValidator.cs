@@ -44,21 +44,21 @@ namespace Validator
             foreach (string IdStrings in listOfIdStrings)
             {
                 // Check if ID is valid
-                if (idChecker(IdStrings))
-                {
-                    Console.WriteLine(createDate(IdStrings));
-                    if (before2010(IdStrings))
-                    {
-                        IdentifiedAsOldID();
-                    }
-                    else
-                    {
-                        IdentifiedAsNewID();
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: " + IdStrings);
+                switch (idChecker(IdStrings)) {
+                    case true:
+                        Console.WriteLine(createDate(IdStrings));
+                        if (before2010(IdStrings))
+                        {
+                            IdentifiedAsOldID();
+                        }
+                        else
+                        {
+                            IdentifiedAsNewID();
+                        }
+                        break;
+                    case false:
+                        Console.WriteLine("ERROR: " + IdStrings);
+                        break;
                 }
             }
         }
