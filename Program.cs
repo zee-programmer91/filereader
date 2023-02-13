@@ -7,12 +7,8 @@ namespace filereader
    class Program{
       static void Main(string[] args){
          string pathToFile = @"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt";
-         IDChecker checker = new IDChecker();
+         IDChecker checker = new IDChecker(2010);
          checker.PathToFile = pathToFile;
-
-         int before2010Count = 0;
-         int after2010Count = 0;
-            // string[] listOfIdStrings = new string[] {};
 
          checker.ListOfIdStrings = InputOuputReader.GetFileContent(checker.PathToFile);
 
@@ -22,16 +18,16 @@ namespace filereader
             if (idChecker(IdStrings)) {
                Console.WriteLine(createDate(IdStrings));
                if (before2010(IdStrings)) {
-                  before2010Count += 1;
+                    checker.IdentifiedAsOldID();
                } else {
-                  after2010Count += 1;
-               }
+                    checker.IdentifiedAsNewID();
+                }
             } else {
                Console.WriteLine("ERROR: "+ IdStrings);
             }
          }
 
-         string writeText = "Number of people before 2010: "+before2010Count+"\n"+"Number of people after 2010: "+after2010Count;
+         string writeText = "Number of people before 2010: "+ checker.ReturnSumOfOldIdentities()+ "\n"+"Number of people after 2010: "+checker.ReturnSumOfNewIdentities();
          System.IO.File.WriteAllText("result.txt", writeText);
       }
 

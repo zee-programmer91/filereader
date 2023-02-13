@@ -4,21 +4,46 @@ namespace Validator
 {
     public class IDChecker
     {
-        private int before2010Count = 0;
-        private int after2010Count = 0;
+        private readonly int EvalutedYear;
+        private int OldYears = 0;
+        private int NewYears = 0;
         private string pathToFile;
-        private string[] listOfIdStrings = new string[]{};
+        private string[] listOfIdStrings = new string[] { };
 
         public string PathToFile
         {
-            get {return pathToFile;}
-            set {pathToFile = value;}
+            get { return pathToFile; }
+            set { pathToFile = value; }
         }
-        public string[] ListOfIdStrings {
-            get { return listOfIdStrings;}
-            set { listOfIdStrings = value;}
+        public string[] ListOfIdStrings
+        {
+            get { return listOfIdStrings; }
+            set { listOfIdStrings = value; }
         }
 
-        public IDChecker() {}
+        public IDChecker(int evalutedYear)
+        {
+            EvalutedYear = evalutedYear;
+        }
+
+        public void IdentifiedAsOldID()
+        {
+            OldYears++;
+        }
+
+        public void IdentifiedAsNewID()
+        {
+            NewYears++;
+        }
+
+        public int ReturnSumOfOldIdentities()
+        {
+            return OldYears;
+        }
+
+        public int ReturnSumOfNewIdentities()
+        {
+            return NewYears;
+        }
     }
 }
