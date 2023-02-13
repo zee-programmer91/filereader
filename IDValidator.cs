@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Validator
 {
@@ -7,9 +8,10 @@ namespace Validator
         private readonly int EvalutedYear;
         private int OldYears = 0;
         private int NewYears = 0;
-        private string[] listOfIdStrings = new string[] { };
+        private List<string> listOfIdStrings = new List<string>();
+        private List<string> ValidIdentities = new List<string>();
 
-        public string[] ListOfIdStrings
+        public List<string> ListOfIdStrings
         {
             set { listOfIdStrings = value; }
         }
@@ -41,29 +43,34 @@ namespace Validator
 
         public void EvaluateIdentidities()
         {
-            foreach (string IdStrings in listOfIdStrings)
+            int count = 0;
+            foreach (string IdString in listOfIdStrings)
             {
                 // Check if ID is valid
-                switch (idChecker(IdStrings)) {
+                switch (idChecker(IdString)) {
                     case true:
-                        Console.WriteLine(createDate(IdStrings));
-                        if (before2010(IdStrings))
+                        Console.WriteLine(createDate(IdString));
+                        ValidIdentities.Add(IdString);
+
+                        switch (before2010(IdString))
                         {
-                            IdentifiedAsOldID();
-                        }
-                        else
-                        {
-                            IdentifiedAsNewID();
+                            case true:
+                                IdentifiedAsOldID();
+                                break;
+                            case false:
+                                IdentifiedAsOldID();
+                                break;
                         }
                         break;
                     case false:
-                        Console.WriteLine("ERROR: " + IdStrings);
+                        Console.WriteLine("ERROR: " + IdString);
                         break;
                 }
+                count++;
             }
         }
 
-        static bool idChecker(string idString)
+        private bool idChecker(string idString)
         {
             // Check length
             bool isCorrectLength = idString.Length == 13;
@@ -91,7 +98,7 @@ namespace Validator
             return isCorrectLength && isAllNumbers && isMonthCorrect && isDayCorrect;
         }
 
-        static string createDate(string IdNumber)
+        private string createDate(string IdNumber)
         {
             string year = IdNumber.Substring(0, 2);
             string month = IdNumber.Substring(2, 2);
@@ -102,7 +109,7 @@ namespace Validator
             return dateString;
         }
 
-        static bool before2010(string idString)
+        private bool before2010(string idString)
         {
             int year = Int32.Parse(idString.Substring(0, 2));
 
@@ -111,6 +118,14 @@ namespace Validator
                 return true;
             }
             return false;
+        }
+
+        public void DecodeIdentities()
+        {
+            foreach (string idString in ValidIdentities)
+            {
+                Console.WriteLine(idString);
+            }
         }
     }
 }

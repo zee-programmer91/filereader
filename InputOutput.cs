@@ -1,20 +1,26 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace IOclass
 {
     public class InputOuputReader
     {
-        public static string[] GetFileContent(string pathToFile)
+        public static List<string> GetFileContent(string pathToFile)
         {
+            List<string> FileContents= new List<string>();
             try
             {
-                return File.ReadAllLines(pathToFile);
+                foreach (string item in File.ReadAllLines(pathToFile))
+                {
+                    FileContents.Add(item);
+                }
+                return FileContents;
             }
             catch (FileNotFoundException)
             {
                 Console.WriteLine("ERROR: File path '"+pathToFile+"' does not exist");
-                return new string[0];
+                return new List<string>();
             }
         }
     }
