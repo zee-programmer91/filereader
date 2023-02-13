@@ -74,6 +74,20 @@ namespace Validator
         private bool idChecker(string idString)
         {
             // Check length
+            string firstSixNumbers = idString.Substring(0, 6);
+            Console.WriteLine("> "+CreateYear(firstSixNumbers) + " " + IsValidDate(firstSixNumbers));
+
+            string nextFourNumbers = idString.Substring(6, 4);
+
+            string nextThreeNumbers = "";
+            try
+            {
+                nextThreeNumbers = idString.Substring(10, 3);
+            } catch (Exception e)
+            {
+                return false;
+            }
+
             bool isCorrectLength = idString.Length == 13;
 
             // Check if all characters are digits
@@ -128,7 +142,7 @@ namespace Validator
             {
                 string firstSixNumbers = idString.Substring(0, 6);
                 bool isValid = IsValidDate(firstSixNumbers);
-                Console.WriteLine(isValid);
+                //Console.WriteLine(CreateYear(firstSixNumbers) +" "+isValid);
 
                 string nextFourNumbers = idString.Substring(6, 4);
                 string nextThreeNumbers = idString.Substring(10, 3);
@@ -166,12 +180,17 @@ namespace Validator
         public bool IsValidDate(string DateOfBirth)
         {
             Regex validYearReg = new Regex("19|20");
+            Regex validMonthReg = new Regex("0[1-9]|1[0-2]");
 
             string year = CreateYear(DateOfBirth);
+            Match matchYear = validYearReg.Match(year);
+            
             string month = DateOfBirth.Substring(2, 2);
+            Match matchMonh = validMonthReg.Match(month);
+
             string day = DateOfBirth.Substring(4, 2);
 
-            return false;
+            return matchMonh.Success;
         }
     }
 }
