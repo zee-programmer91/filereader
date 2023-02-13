@@ -1,16 +1,20 @@
 ﻿using System;
 using IOclass;
+using Validator;
 
 namespace filereader
 {
    class Program{
       static void Main(string[] args){
+         string pathToFile = @"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt";
+         IDChecker checker = new IDChecker();
+         checker.PathToFile = pathToFile;
+
          int before2010Count = 0;
          int after2010Count = 0;
-         string pathToFile = @"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt";
          string[] listOfIdStrings = new string[] {};
 
-         InputOuputReader.GetFileContent(pathToFile, ref listOfIdStrings);
+         InputOuputReader.GetFileContent(checker.PathToFile, ref listOfIdStrings);
 
          foreach (string IdStrings in listOfIdStrings)
             {
