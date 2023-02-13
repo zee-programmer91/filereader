@@ -7,20 +7,23 @@ namespace filereader
       static void Main(string[] args){
          int before2010Count = 0;
          int after2010Count = 0;
+         string pathToFile = @"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt";
+         string[] listOfIdStrings = new string[] {};
 
-         string[] idNumbers = InputOuputReader.GetFileContent(@"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt");
+         InputOuputReader.GetFileContent(pathToFile, ref listOfIdStrings);
 
-         foreach (string idNumber in idNumbers){
+         foreach (string IdStrings in listOfIdStrings)
+            {
             // Check if ID is valid
-            if (idChecker(idNumber)) {
-               Console.WriteLine(createDate(idNumber));
-               if (before2010(idNumber)) {
+            if (idChecker(IdStrings)) {
+               Console.WriteLine(createDate(IdStrings));
+               if (before2010(IdStrings)) {
                   before2010Count += 1;
                } else {
                   after2010Count += 1;
                }
             } else {
-               Console.WriteLine("ERROR: "+ idNumber);
+               Console.WriteLine("ERROR: "+ IdStrings);
             }
          }
 
