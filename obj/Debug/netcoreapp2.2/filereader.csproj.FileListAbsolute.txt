@@ -1,0 +1,11 @@
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\bin\Debug\netcoreapp2.2\filereader.deps.json
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\bin\Debug\netcoreapp2.2\filereader.runtimeconfig.json
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\bin\Debug\netcoreapp2.2\filereader.runtimeconfig.dev.json
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\bin\Debug\netcoreapp2.2\filereader.dll
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\bin\Debug\netcoreapp2.2\filereader.pdb
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.csprojAssemblyReference.cache
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.csproj.CoreCompileInputs.cache
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.AssemblyInfoInputs.cache
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.AssemblyInfo.cs
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.dll
+C:\Users\bbdnet2866\BBD_Training\C#\filereader\obj\Debug\netcoreapp2.2\filereader.pdb
