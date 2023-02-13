@@ -1,4 +1,5 @@
 ﻿using System;
+using IOclass;
 
 namespace filereader
 {
@@ -7,7 +8,7 @@ namespace filereader
          int before2010Count = 0;
          int after2010Count = 0;
 
-         string[] idNumbers = System.IO.File.ReadAllLines(@"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt");
+         string[] idNumbers = InputOuputReader.GetFileContent(@"C:\Users\bbdnet2866\BBD_Training\C#\filereader\ids.txt");
 
          foreach (string idNumber in idNumbers){
             // Check if ID is valid
