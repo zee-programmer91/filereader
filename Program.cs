@@ -12,11 +12,11 @@ namespace filereader
 
          int before2010Count = 0;
          int after2010Count = 0;
-         string[] listOfIdStrings = new string[] {};
+            // string[] listOfIdStrings = new string[] {};
 
-         InputOuputReader.GetFileContent(checker.PathToFile, ref listOfIdStrings);
+         checker.ListOfIdStrings = InputOuputReader.GetFileContent(checker.PathToFile);
 
-         foreach (string IdStrings in listOfIdStrings)
+         foreach (string IdStrings in checker.ListOfIdStrings)
             {
             // Check if ID is valid
             if (idChecker(IdStrings)) {

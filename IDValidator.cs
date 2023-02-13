@@ -7,13 +7,17 @@ namespace Validator
         private int before2010Count = 0;
         private int after2010Count = 0;
         private string pathToFile;
-        
+        private string[] listOfIdStrings = new string[]{};
+
         public string PathToFile
         {
             get {return pathToFile;}
             set {pathToFile = value;}
         }
-        private string[] ListOfIdStrings { get; set; }
+        public string[] ListOfIdStrings {
+            get { return listOfIdStrings;}
+            set { listOfIdStrings = value;}
+        }
 
         public IDChecker() {}
     }

@@ -5,15 +5,16 @@ namespace IOclass
 {
     public class InputOuputReader
     {
-        public static void GetFileContent(string pathToFile, ref string[] listOfIdStrings)
+        public static string[] GetFileContent(string pathToFile)
         {
             try
             {
-                listOfIdStrings = File.ReadAllLines(pathToFile);
+                return File.ReadAllLines(pathToFile);
             }
             catch (FileNotFoundException)
             {
                 Console.WriteLine("ERROR: File path '"+pathToFile+"' does not exist");
+                return new string[0];
             }
         }
     }
