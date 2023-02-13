@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Validator
 {
@@ -101,6 +102,7 @@ namespace Validator
         private string createDate(string IdNumber)
         {
             string year = IdNumber.Substring(0, 2);
+            year = CreateYear(year);
             string month = IdNumber.Substring(2, 2);
             string day = IdNumber.Substring(4, 2);
 
@@ -124,8 +126,52 @@ namespace Validator
         {
             foreach (string idString in ValidIdentities)
             {
-                Console.WriteLine(idString);
+                string firstSixNumbers = idString.Substring(0, 6);
+                bool isValid = IsValidDate(firstSixNumbers);
+                Console.WriteLine(isValid);
+
+                string nextFourNumbers = idString.Substring(6, 4);
+                string nextThreeNumbers = idString.Substring(10, 3);
+
+                Console.WriteLine(firstSixNumbers);
+                Console.WriteLine(nextFourNumbers);
+                Console.WriteLine(nextThreeNumbers);
+                Console.WriteLine();
             }
+        }
+
+        public string CreateYear(string DateOfBirth)
+        {
+            int startYear = 24;
+            string twenty = "20";
+            string nineteen = "19";
+
+            try
+            {
+                string year = DateOfBirth.Substring(0, 2);
+
+                switch (Int32.Parse(year) > startYear)
+                {
+                    case true:
+                        return nineteen + year;
+                    case false:
+                        return twenty + year;
+                }
+                return year;
+            } catch(Exception) {
+                return "";
+            }
+        }
+
+        public bool IsValidDate(string DateOfBirth)
+        {
+            Regex validYearReg = new Regex("19|20");
+
+            string year = CreateYear(DateOfBirth);
+            string month = DateOfBirth.Substring(2, 2);
+            string day = DateOfBirth.Substring(4, 2);
+
+            return false;
         }
     }
 }
