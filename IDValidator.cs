@@ -80,9 +80,15 @@ namespace Validator
             }
         }
 
-        private bool idChecker(string idString)
+        public bool IdChecker(string idString)
         {
             // Check length
+            Regex lengthReg = new Regex("\\d{13}");
+            if (!lengthReg.IsMatch(idString))
+            {
+                return false;
+            }
+            return true;
             string firstSixNumbers = idString.Substring(0, 6);
             Console.WriteLine("> "+CreateYear(firstSixNumbers) + " " + IsValidDate(firstSixNumbers));
 
