@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Validator;
 
 namespace IOclass
 {
@@ -22,6 +23,11 @@ namespace IOclass
                 Console.WriteLine("ERROR: File path '"+pathToFile+"' does not exist");
                 return new List<string>();
             }
+        }
+
+        public static void WriteToFile(string pathToFile, string content)
+        {
+            System.IO.File.WriteAllText("result.txt", content);
         }
     }
 }

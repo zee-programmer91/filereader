@@ -7,10 +7,11 @@ namespace Validator
     public class IDChecker
     {
         private readonly int EvalutedYear;
+        private const int startYear = 24;
         private int OldYears = 0;
         private int NewYears = 0;
         private List<string> listOfIdStrings = new List<string>();
-        private List<string> ValidIdentities = new List<string>();
+        private readonly List<string> ValidIdentities = new List<string>();
 
         public List<string> ListOfIdStrings
         {
@@ -44,16 +45,14 @@ namespace Validator
 
         public void EvaluateIdentitities()
         {
-            int count = 0;
             foreach (string IdString in listOfIdStrings)
             {
-                // Check if ID is valid
                 switch (IdStringValid(IdString)) {
                     case true:
-                        Console.WriteLine(createDate(IdString));
+                        Console.WriteLine(CreateDate(IdString));
                         ValidIdentities.Add(IdString);
 
-                        switch (before2010(IdString))
+                        switch (IsBeforeEvaluatedYear(IdString))
                         {
                             case true:
                                 IdentifiedAsOldID();
@@ -67,7 +66,6 @@ namespace Validator
                         Console.WriteLine("ERROR: " + IdString);
                         break;
                 }
-                count++;
             }
         }
 
@@ -99,7 +97,7 @@ namespace Validator
             return true;
         }
 
-        private string createDate(string IdNumber)
+        private string CreateDate(string IdNumber)
         {
             try
             {
@@ -117,15 +115,20 @@ namespace Validator
             }
         }
 
-        private bool before2010(string idString)
+        private bool IsBeforeEvaluatedYear(string idString)
         {
-            int year = Int32.Parse(idString.Substring(0, 2));
-
-            if (year > 23 || year < 10)
+            try
             {
-                return true;
+                int year = Int32.Parse(idString.Substring(0, 2));
+                if (year < EvalutedYear)
+                {
+                    return true;
+                }
+                return false;
+            } catch (ArgumentOutOfRangeException)
+            {
+                return false;
             }
-            return false;
         }
 
         public void DecodeIdentities()
@@ -142,12 +145,12 @@ namespace Validator
                 { "11","November" },{ "12","December" },
             };
 
+            Console.WriteLine();
             foreach (string idString in ValidIdentities)
             {
                 string genderNumbers = idString.Substring(6, 4);
                 string citizenNumbers = idString.Substring(10, 3);
-                string dateString = createDate(idString);
-                string[] dateStringSplit = dateString.Split("/");
+                string dateString = CreateDate(idString);
                 string day = dateString.Split("/")[0];
                 string month = dateString.Split("/")[1];
                 string year = dateString.Split("/")[2];
@@ -160,23 +163,22 @@ namespace Validator
 
                 string citizenOrPermanent = "Citizen";
                 string a = Char.ToString(citizenNumbers[0]);
-                Console.WriteLine("citizenNumbers: " + a);
                 if (Int32.Parse(a) != citizenNumber)
                 {
                     citizenOrPermanent = "Permanent Resident";
                 }
 
 
-                string message = "You were born on the "+day+" of " + months[month]+" "+year;
+                string message = idString + " : Born on the " +day+" of " + months[month]+" "+year;
                 message += " and you are "+gender+" and a "+citizenOrPermanent+" of South Africa.";
 
                 Console.WriteLine(message);
             }
+            Console.WriteLine();
         }
 
         public string CreateYear(string DateOfBirth)
         {
-            int startYear = 24;
             string twenty = "20";
             string nineteen = "19";
 
