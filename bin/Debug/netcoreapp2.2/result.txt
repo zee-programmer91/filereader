@@ -1,2 +1,2 @@
-Number of people before 2010: 12
+Number of people before 2010: 11
 Number of people after 2010: 0

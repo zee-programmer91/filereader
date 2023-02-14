@@ -42,22 +42,13 @@ namespace Validator
             return NewYears;
         }
 
-        public void EvaluateIdentidities()
+        public void EvaluateIdentitities()
         {
             int count = 0;
             foreach (string IdString in listOfIdStrings)
             {
                 // Check if ID is valid
-                string dateOfBirth;
-                try
-                {
-                    dateOfBirth = IdString.Substring(0, 6);
-                }catch(Exception ex)
-                {
-                    dateOfBirth = "010101";
-                }
-
-                switch (IsValidDate(dateOfBirth)) {
+                switch (IdStringValid(IdString)) {
                     case true:
                         Console.WriteLine(createDate(IdString));
                         ValidIdentities.Add(IdString);
@@ -80,52 +71,32 @@ namespace Validator
             }
         }
 
-        public bool IdChecker(string idString)
+        public bool IdStringValid(string idString)
         {
-            // Check length
+            // Check length and all digits
             Regex lengthReg = new Regex("\\d{13}");
             if (!lengthReg.IsMatch(idString))
             {
                 return false;
             }
-            return true;
-            string firstSixNumbers = idString.Substring(0, 6);
-            Console.WriteLine("> "+CreateYear(firstSixNumbers) + " " + IsValidDate(firstSixNumbers));
 
-            string nextFourNumbers = idString.Substring(6, 4);
-
-            string nextThreeNumbers = "";
+            // Check Date of Birth
+            string dateOfBirth;
             try
             {
-                nextThreeNumbers = idString.Substring(10, 3);
-            } catch (Exception e)
+                dateOfBirth = idString.Substring(0, 6);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                dateOfBirth = "010101";
+            }
+
+            if (!IsValidDate(dateOfBirth))
             {
                 return false;
             }
 
-            bool isCorrectLength = idString.Length == 13;
-
-            // Check if all characters are digits
-            bool isAllNumbers = false;
-
-            foreach (char item in idString)
-            {
-                isAllNumbers = Char.IsDigit(item);
-            }
-
-            // Check if month is correct
-            bool isMonthCorrect = false;
-
-            int month = Int32.Parse(idString.Substring(2, 2));
-            isMonthCorrect = 0 < month && month <= 12;
-
-            // Check if day is correct
-            bool isDayCorrect = false;
-
-            int day = Int32.Parse(idString.Substring(4, 2));
-            isDayCorrect = 0 < day && day <= 31;
-
-            return isCorrectLength && isAllNumbers && isMonthCorrect && isDayCorrect;
+            return true;
         }
 
         private string createDate(string IdNumber)
@@ -199,17 +170,24 @@ namespace Validator
             Regex validDayReg = new Regex("0[1-9]|[12][0-9]|3[01]");
 
             string year = CreateYear(DateOfBirth);
-            Match matchYear = validYearReg.Match(year);
+            if (!validYearReg.Match(year).Success)
+            {
+                return false;
+            }
             
             string month = DateOfBirth.Substring(2, 2);
-            Match matchMonth = validMonthReg.Match(month);
+            if (!validMonthReg.Match(month).Success)
+            {
+                return false;
+            }
 
             string day = DateOfBirth.Substring(4, 2);
-           // Console.WriteLine("Day: " + day);
-            Match matchDay = validDayReg.Match(day);
+            if (!validDayReg.Match(day).Success)
+            {
+                return false;
+            }
 
-
-            return matchYear.Success && matchMonth.Success && matchDay.Success;
+            return true;
         }
     }
 }
