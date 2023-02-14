@@ -48,7 +48,16 @@ namespace Validator
             foreach (string IdString in listOfIdStrings)
             {
                 // Check if ID is valid
-                switch (idChecker(IdString)) {
+                string dateOfBirth;
+                try
+                {
+                    dateOfBirth = IdString.Substring(0, 6);
+                }catch(Exception ex)
+                {
+                    dateOfBirth = "010101";
+                }
+
+                switch (IsValidDate(dateOfBirth)) {
                     case true:
                         Console.WriteLine(createDate(IdString));
                         ValidIdentities.Add(IdString);
@@ -145,11 +154,11 @@ namespace Validator
                 //Console.WriteLine(CreateYear(firstSixNumbers) +" "+isValid);
 
                 string nextFourNumbers = idString.Substring(6, 4);
-                string nextThreeNumbers = idString.Substring(10, 3);
+                //string nextThreeNumbers = idString.Substring(10, 3);
 
                 Console.WriteLine(firstSixNumbers);
                 Console.WriteLine(nextFourNumbers);
-                Console.WriteLine(nextThreeNumbers);
+                //Console.WriteLine(nextThreeNumbers);
                 Console.WriteLine();
             }
         }
@@ -177,20 +186,24 @@ namespace Validator
             }
         }
 
-        public bool IsValidDate(string DateOfBirth)
+        public bool IsValidDate(string DateOfBirth) 
         {
             Regex validYearReg = new Regex("19|20");
             Regex validMonthReg = new Regex("0[1-9]|1[0-2]");
+            Regex validDayReg = new Regex("0[1-9]|[12][0-9]|3[01]");
 
             string year = CreateYear(DateOfBirth);
             Match matchYear = validYearReg.Match(year);
             
             string month = DateOfBirth.Substring(2, 2);
-            Match matchMonh = validMonthReg.Match(month);
+            Match matchMonth = validMonthReg.Match(month);
 
             string day = DateOfBirth.Substring(4, 2);
+           // Console.WriteLine("Day: " + day);
+            Match matchDay = validDayReg.Match(day);
 
-            return matchMonh.Success;
+
+            return matchYear.Success && matchMonth.Success && matchDay.Success;
         }
     }
 }
