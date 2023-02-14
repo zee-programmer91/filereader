@@ -23,12 +23,12 @@ namespace Validator
             EvalutedYear = evalutedYear;
         }
 
-        public void IdentifiedAsOldID()
+        private void IdentifiedAsOldID()
         {
             OldYears++;
         }
 
-        public void IdentifiedAsNewID()
+        private void IdentifiedAsNewID()
         {
             NewYears++;
         }
@@ -47,18 +47,18 @@ namespace Validator
         {
             foreach (string IdString in listOfIdStrings)
             {
-                switch (IdStringValid(IdString)) {
+                switch (IsIdStringValid(IdString)) {
                     case true:
-                        Console.WriteLine(CreateDate(IdString));
+                        Console.WriteLine(CreateDateString(IdString));
                         ValidIdentities.Add(IdString);
 
-                        switch (IsBeforeEvaluatedYear(IdString))
+                        switch (IsYearInIDBeforeEvaluatedYear(IdString))
                         {
                             case true:
                                 IdentifiedAsOldID();
                                 break;
                             case false:
-                                IdentifiedAsOldID();
+                                IdentifiedAsNewID();
                                 break;
                         }
                         break;
@@ -69,7 +69,7 @@ namespace Validator
             }
         }
 
-        public bool IdStringValid(string idString)
+        private bool IsIdStringValid(string idString)
         {
             // Check length and all digits
             Regex lengthReg = new Regex("\\d{13}");
@@ -89,7 +89,7 @@ namespace Validator
                 dateOfBirth = "010101";
             }
 
-            if (!IsValidDate(dateOfBirth))
+            if (!IsDateOfBirthValid(dateOfBirth))
             {
                 return false;
             }
@@ -97,12 +97,12 @@ namespace Validator
             return true;
         }
 
-        private string CreateDate(string IdNumber)
+        private string CreateDateString(string IdNumber)
         {
             try
             {
                 string year = IdNumber.Substring(0, 2);
-                year = CreateYear(year);
+                year = CreateYearString(year);
                 string month = IdNumber.Substring(2, 2);
                 string day = IdNumber.Substring(4, 2);
 
@@ -115,7 +115,7 @@ namespace Validator
             }
         }
 
-        private bool IsBeforeEvaluatedYear(string idString)
+        private bool IsYearInIDBeforeEvaluatedYear(string idString)
         {
             try
             {
@@ -131,53 +131,7 @@ namespace Validator
             }
         }
 
-        public void DecodeIdentities()
-        {
-            const int maleStartNumber = 5000;
-            const int citizenNumber = 0;
-
-            Dictionary<string, string> months = new Dictionary<string, string>(){
-                { "01","January" },{ "02","February" },
-                { "03","March" },{ "04","April" },
-                { "05","May" },{ "06","June" },
-                { "07","July" },{ "08","August" },
-                { "09","September" },{ "10","October" },
-                { "11","November" },{ "12","December" },
-            };
-
-            Console.WriteLine();
-            foreach (string idString in ValidIdentities)
-            {
-                string genderNumbers = idString.Substring(6, 4);
-                string citizenNumbers = idString.Substring(10, 3);
-                string dateString = CreateDate(idString);
-                string day = dateString.Split("/")[0];
-                string month = dateString.Split("/")[1];
-                string year = dateString.Split("/")[2];
-
-                string gender = "Male";
-                if (Int32.Parse(genderNumbers) < maleStartNumber)
-                {
-                    gender = "Female";
-                }
-
-                string citizenOrPermanent = "Citizen";
-                string a = Char.ToString(citizenNumbers[0]);
-                if (Int32.Parse(a) != citizenNumber)
-                {
-                    citizenOrPermanent = "Permanent Resident";
-                }
-
-
-                string message = idString + " : Born on the " +day+" of " + months[month]+" "+year;
-                message += " and you are "+gender+" and a "+citizenOrPermanent+" of South Africa.";
-
-                Console.WriteLine(message);
-            }
-            Console.WriteLine();
-        }
-
-        public string CreateYear(string DateOfBirth)
+        private string CreateYearString(string DateOfBirth)
         {
             string twenty = "20";
             string nineteen = "19";
@@ -199,13 +153,13 @@ namespace Validator
             }
         }
 
-        public bool IsValidDate(string DateOfBirth) 
+        private bool IsDateOfBirthValid(string DateOfBirth) 
         {
             Regex validYearReg = new Regex("19|20");
             Regex validMonthReg = new Regex("0[1-9]|1[0-2]");
             Regex validDayReg = new Regex("0[1-9]|[12][0-9]|3[01]");
 
-            string year = CreateYear(DateOfBirth);
+            string year = CreateYearString(DateOfBirth);
             if (!validYearReg.Match(year).Success)
             {
                 return false;
@@ -224,6 +178,52 @@ namespace Validator
             }
 
             return true;
+        }
+
+        public void DecodeValidIdentities()
+        {
+            const int maleStartNumber = 5000;
+            const int citizenNumber = 0;
+
+            Dictionary<string, string> months = new Dictionary<string, string>(){
+                { "01","January" },{ "02","February" },
+                { "03","March" },{ "04","April" },
+                { "05","May" },{ "06","June" },
+                { "07","July" },{ "08","August" },
+                { "09","September" },{ "10","October" },
+                { "11","November" },{ "12","December" },
+            };
+
+            Console.WriteLine();
+            foreach (string idString in ValidIdentities)
+            {
+                string genderNumbers = idString.Substring(6, 4);
+                string citizenNumbers = idString.Substring(10, 3);
+                string dateString = CreateDateString(idString);
+                string day = dateString.Split("/")[0];
+                string month = dateString.Split("/")[1];
+                string year = dateString.Split("/")[2];
+
+                string gender = "Male";
+                if (Int32.Parse(genderNumbers) < maleStartNumber)
+                {
+                    gender = "Female";
+                }
+
+                string citizenOrPermanent = "Citizen";
+                string a = Char.ToString(citizenNumbers[0]);
+                if (Int32.Parse(a) != citizenNumber)
+                {
+                    citizenOrPermanent = "Permanent Resident";
+                }
+
+
+                string message = idString + " : Born on the " + day + " of " + months[month] + " " + year;
+                message += " and you are " + gender + " and a " + citizenOrPermanent + " of South Africa.";
+
+                Console.WriteLine(message);
+            }
+            Console.WriteLine();
         }
     }
 }

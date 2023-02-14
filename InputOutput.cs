@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Validator;
 
-namespace IOclass
+namespace InputOutput
 {
     public class InputOuputReader
     {
@@ -25,9 +24,9 @@ namespace IOclass
             }
         }
 
-        public static void WriteToFile(string pathToFile, string content)
+        public static void WriteToFile(string filePath, string content)
         {
-            System.IO.File.WriteAllText("result.txt", content);
+            System.IO.File.WriteAllText(filePath, content);
         }
     }
 }
