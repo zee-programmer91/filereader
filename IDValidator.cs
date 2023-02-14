@@ -101,14 +101,20 @@ namespace Validator
 
         private string createDate(string IdNumber)
         {
-            string year = IdNumber.Substring(0, 2);
-            year = CreateYear(year);
-            string month = IdNumber.Substring(2, 2);
-            string day = IdNumber.Substring(4, 2);
+            try
+            {
+                string year = IdNumber.Substring(0, 2);
+                year = CreateYear(year);
+                string month = IdNumber.Substring(2, 2);
+                string day = IdNumber.Substring(4, 2);
 
-            string dateString = day + "/" + month + "/" + year;
+                string dateString = day + "/" + month + "/" + year;
 
-            return dateString;
+                return dateString;
+            } catch (ArgumentOutOfRangeException)
+            {
+                return "01/01/2000";
+            }
         }
 
         private bool before2010(string idString)
@@ -124,19 +130,30 @@ namespace Validator
 
         public void DecodeIdentities()
         {
+            Dictionary<string, string> months = new Dictionary<string, string>(){
+                { "01","January" },{ "02","February" },
+                { "03","March" },{ "04","April" },
+                { "05","May" },{ "06","June" },
+                { "07","July" },{ "08","August" },
+                { "09","September" },{ "10","October" },
+                { "11","November" },{ "12","December" },
+            };
+
             foreach (string idString in ValidIdentities)
             {
-                string firstSixNumbers = idString.Substring(0, 6);
-                bool isValid = IsValidDate(firstSixNumbers);
-                //Console.WriteLine(CreateYear(firstSixNumbers) +" "+isValid);
+                string dateString = createDate(idString);
+                string[] dateStringSplit = dateString.Split("/");
+                string day = dateString.Split("/")[0];
+                string month = dateString.Split("/")[1];
+                string year = dateString.Split("/")[2];
 
-                string nextFourNumbers = idString.Substring(6, 4);
-                //string nextThreeNumbers = idString.Substring(10, 3);
+                string gender = "Male";
+                string citizenOrPermanent = "citizen";
 
-                Console.WriteLine(firstSixNumbers);
-                Console.WriteLine(nextFourNumbers);
-                //Console.WriteLine(nextThreeNumbers);
-                Console.WriteLine();
+                string message = "You were born on the "+day+" of " + months[month]+" "+year;
+                message += " and you are "+gender+" and a "+citizenOrPermanent+" of South Africa.";
+
+                Console.WriteLine(message);
             }
         }
 
