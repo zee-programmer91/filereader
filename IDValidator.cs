@@ -130,6 +130,9 @@ namespace Validator
 
         public void DecodeIdentities()
         {
+            const int maleStartNumber = 5000;
+            const int citizenNumber = 0;
+
             Dictionary<string, string> months = new Dictionary<string, string>(){
                 { "01","January" },{ "02","February" },
                 { "03","March" },{ "04","April" },
@@ -141,6 +144,8 @@ namespace Validator
 
             foreach (string idString in ValidIdentities)
             {
+                string genderNumbers = idString.Substring(6, 4);
+                string citizenNumbers = idString.Substring(10, 3);
                 string dateString = createDate(idString);
                 string[] dateStringSplit = dateString.Split("/");
                 string day = dateString.Split("/")[0];
@@ -148,7 +153,19 @@ namespace Validator
                 string year = dateString.Split("/")[2];
 
                 string gender = "Male";
-                string citizenOrPermanent = "citizen";
+                if (Int32.Parse(genderNumbers) < maleStartNumber)
+                {
+                    gender = "Female";
+                }
+
+                string citizenOrPermanent = "Citizen";
+                string a = Char.ToString(citizenNumbers[0]);
+                Console.WriteLine("citizenNumbers: " + a);
+                if (Int32.Parse(a) != citizenNumber)
+                {
+                    citizenOrPermanent = "Permanent Resident";
+                }
+
 
                 string message = "You were born on the "+day+" of " + months[month]+" "+year;
                 message += " and you are "+gender+" and a "+citizenOrPermanent+" of South Africa.";
